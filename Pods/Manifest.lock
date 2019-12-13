@@ -1,0 +1,76 @@
+PODS:
+  - Action (3.11.0):
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+  - Alamofire (4.9.1)
+  - CRuntime (2.1.2)
+  - Differentiator (3.1.0)
+  - Moya/Core (13.0.1):
+    - Alamofire (~> 4.1)
+    - Result (~> 4.1)
+  - Moya/RxSwift (13.0.1):
+    - Moya/Core
+    - RxSwift (~> 4.0)
+  - Result (4.1.0)
+  - Runtime (2.1.1):
+    - CRuntime
+  - RxBiBinding (0.2.1):
+    - RxCocoa (~> 4.5)
+    - RxSwift (~> 4.5)
+  - RxCocoa (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxDataSources (3.1.0):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+  - RxKeyboard (0.9.0):
+    - RxCocoa (>= 4.3.1)
+    - RxSwift (>= 4.3.1)
+  - RxSwift (4.5.0)
+  - SwiftDate (6.1.0)
+
+DEPENDENCIES:
+  - Action
+  - Moya/RxSwift (~> 13.0)
+  - Runtime
+  - RxBiBinding
+  - RxCocoa (~> 4.5.0)
+  - RxDataSources
+  - RxKeyboard
+  - RxSwift (~> 4.5.0)
+  - SwiftDate
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Action
+    - Alamofire
+    - CRuntime
+    - Differentiator
+    - Moya
+    - Result
+    - Runtime
+    - RxBiBinding
+    - RxCocoa
+    - RxDataSources
+    - RxKeyboard
+    - RxSwift
+    - SwiftDate
+
+SPEC CHECKSUMS:
+  Action: 689181e4c3f6566844178d8a7da6fef39a9597fc
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  CRuntime: d7ae373e07ab36e92ad273259557e3817e0c214b
+  Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
+  Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
+  Runtime: 2b0e7604e598b52c698c64f0b961640c074ed75e
+  RxBiBinding: ea3f613e794d00c1d0ef1837883303906da0d557
+  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
+  RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
+  RxKeyboard: 4f782303f499f41577b41c96c6a9a5d7acd51a47
+  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
+  SwiftDate: fa2bb3962056bb44047b4b85a30044e5eae30b03
+
+PODFILE CHECKSUM: ae17d4937da55f0460bc8467db9fe0c2be174287
+
+COCOAPODS: 1.7.4

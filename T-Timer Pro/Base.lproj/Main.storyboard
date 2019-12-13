@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZtT-Ae-RnR">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="gsr-mY-eAl">
+            <objects>
+                <navigationController id="ZtT-Ae-RnR" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zFh-Hc-opk">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="dqb-hD-VAK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zro-Qv-CkI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1609" y="100"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="T_Timer_Pro" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZv-Te-m1L">
+                                <rect key="frame" x="336" y="113" width="78" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Vr4-w6-6ah"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="icons8-settings"/>
+                                <connections>
+                                    <action selector="openSetting:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MV4-ki-hcQ"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EDJ-Su-i2g" customClass="TimeView" customModule="T_Timer_Pro" customModuleProvider="target">
+                                <rect key="frame" x="30" y="168" width="354" height="552"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZWy-GX-teo" customClass="RoundButton" customModule="T_Timer_Pro" customModuleProvider="target">
+                                <rect key="frame" x="107" y="750" width="200" height="30"/>
+                                <color key="backgroundColor" name="babyBlue"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="jry-th-Hed"/>
+                                </constraints>
+                                <state key="normal" title="START">
+                                    <color key="titleColor" name="blueberry"/>
+                                </state>
+                                <connections>
+                                    <action selector="startOrReset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dzM-n3-nUk"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJC-NU-hKo">
+                                <rect key="frame" x="0.0" y="802" width="414" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="AY6-0z-Jsj"/>
+                                    <constraint firstAttribute="width" constant="200" id="mfM-2z-i7l"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="MJC-NU-hKo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0Lt-35-RH6"/>
+                            <constraint firstItem="EDJ-Su-i2g" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="Ezh-y5-84Y"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MJC-NU-hKo" secondAttribute="bottom" id="FPH-Im-LVo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EZv-Te-m1L" secondAttribute="trailing" id="HML-XI-UEO"/>
+                            <constraint firstItem="ZWy-GX-teo" firstAttribute="top" secondItem="EDJ-Su-i2g" secondAttribute="bottom" constant="30" id="K0J-Y5-wBf"/>
+                            <constraint firstItem="ZWy-GX-teo" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="K3i-mX-M5d"/>
+                            <constraint firstItem="EZv-Te-m1L" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="Pyr-Er-JZ4"/>
+                            <constraint firstItem="EDJ-Su-i2g" firstAttribute="top" secondItem="EZv-Te-m1L" secondAttribute="bottom" constant="30" id="SOm-FR-atJ"/>
+                            <constraint firstItem="MJC-NU-hKo" firstAttribute="topMargin" secondItem="ZWy-GX-teo" secondAttribute="bottom" constant="30" id="SU7-st-I1H"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MJC-NU-hKo" secondAttribute="trailing" id="gqu-fu-8Dp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EDJ-Su-i2g" secondAttribute="trailing" constant="30" id="jcB-Qd-8Mh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="zFy-0K-pkj"/>
+                    <connections>
+                        <outlet property="btnSetting" destination="EZv-Te-m1L" id="PrJ-8A-cjJ"/>
+                        <outlet property="btnStartOrStop" destination="ZWy-GX-teo" id="tBQ-fy-I1H"/>
+                        <outlet property="message" destination="MJC-NU-hKo" id="iJh-w8-tq5"/>
+                        <outlet property="timeView" destination="EDJ-Su-i2g" id="5cm-d3-Pk6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="MNS-xo-g5K"/>
+            </objects>
+            <point key="canvasLocation" x="-723.1884057971015" y="87.723214285714278"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="oPk-Xn-19U">
+            <objects>
+                <viewController id="TML-1l-IP0" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mVs-Ok-OLU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hello" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qY2-1m-BN7">
+                                <rect key="frame" x="186" y="348" width="39" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="AT8-lr-6Ep"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kZa-qe-Fsp"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9SQ-Ui-ALF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="63" y="91"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icons8-settings" width="24" height="24"/>
+        <namedColor name="babyBlue">
+            <color red="0.70599997043609619" green="0.88599997758865356" blue="0.92500001192092896" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="blueberry">
+            <color red="0.23499999940395355" green="0.28999999165534973" blue="0.56099998950958252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
