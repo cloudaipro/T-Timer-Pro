@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8428941423A5BB8C00939482 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8428941323A5BB8C00939482 /* AVFoundation.framework */; };
+		8428941723A5BEEB00939482 /* Alla_Turca.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8428941623A5BEEB00939482 /* Alla_Turca.mp3 */; };
 		84341F1D2389F368008E94C6 /* TimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84341F1C2389F368008E94C6 /* TimeView.swift */; };
 		843873A32399DAE1005DA002 /*  CGPoint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843873A22399DAE1005DA002 /*  CGPoint+Extension.swift */; };
 		845A4709239242750065D373 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845A4708239242740065D373 /* Storyboard.storyboard */; };
@@ -23,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		5471BCDBB36E641728A01BC4 /* Pods_T_Timer_Pro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_T_Timer_Pro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8428941323A5BB8C00939482 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		8428941623A5BEEB00939482 /* Alla_Turca.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alla_Turca.mp3; sourceTree = "<group>"; };
 		84341F1C2389F368008E94C6 /* TimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeView.swift; sourceTree = "<group>"; };
 		843873A22399DAE1005DA002 /*  CGPoint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " CGPoint+Extension.swift"; sourceTree = "<group>"; };
 		845A4708239242740065D373 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
@@ -45,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8428941423A5BB8C00939482 /* AVFoundation.framework in Frameworks */,
 				DD6DCCBEB597A7AC7904A322 /* Pods_T_Timer_Pro.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,9 +60,18 @@
 		6406C563583875E8A6D1E299 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8428941323A5BB8C00939482 /* AVFoundation.framework */,
 				5471BCDBB36E641728A01BC4 /* Pods_T_Timer_Pro.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8428941523A5BE8B00939482 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				8428941623A5BEEB00939482 /* Alla_Turca.mp3 */,
+			);
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 		84EFE3A82389BDEB009CB019 = {
@@ -81,6 +95,7 @@
 		84EFE3B32389BDEB009CB019 /* T-Timer Pro */ = {
 			isa = PBXGroup;
 			children = (
+				8428941523A5BE8B00939482 /* Sounds */,
 				84EFE3B42389BDEB009CB019 /* AppDelegate.swift */,
 				84EFE3B62389BDEB009CB019 /* SceneDelegate.swift */,
 				84EFE3B82389BDEB009CB019 /* ViewController.swift */,
@@ -168,6 +183,7 @@
 			files = (
 				84EFE3C12389BDEC009CB019 /* LaunchScreen.storyboard in Resources */,
 				845A4709239242750065D373 /* Storyboard.storyboard in Resources */,
+				8428941723A5BEEB00939482 /* Alla_Turca.mp3 in Resources */,
 				84EFE3BE2389BDEC009CB019 /* Assets.xcassets in Resources */,
 				84EFE3BC2389BDEB009CB019 /* Main.storyboard in Resources */,
 			);

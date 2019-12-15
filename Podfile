@@ -15,4 +15,5 @@ target 'T-Timer Pro' do
   pod 'Moya/RxSwift', '~> 13.0'
   pod 'SwiftDate' #, '~> 5.0'
   pod 'Runtime'
+  pod 'Toucan'
 end

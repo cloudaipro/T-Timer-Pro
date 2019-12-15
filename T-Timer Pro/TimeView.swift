@@ -11,6 +11,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SwiftDate
+import Toucan
 
 @IBDesignable
 class TimeView: UIView {
@@ -20,7 +21,7 @@ class TimeView: UIView {
     var endArc: CGFloat  = -0.25 * fullCircle
 
     @IBInspectable var outlineColor: UIColor = UIColor.blue
-    @IBInspectable var counterColor: UIColor! = UIColor(named: "tomato")
+    @IBInspectable var counterColor: UIColor! = UIColor(named: "apple")
     @IBInspectable var lineColor: UIColor = UIColor.black
     @IBInspectable var digitColot: UIColor = UIColor.black
     
@@ -28,58 +29,81 @@ class TimeView: UIView {
     var minuteDuration: Int = 60
     var secondDuration: Int = 0
     
-    var totalMiniutes: CGFloat {
+//    var totalMiniutes: CGFloat {
+//        get {
+//            return CGFloat(hourDuration * 60 + minuteDuration) + CGFloat(secondDuration) / 60.0
+//        }
+//    }
+
+    var totalMins: CGFloat {
         get {
-            return CGFloat(hourDuration * 60 + minuteDuration) + CGFloat(secondDuration) / 60.0
+            return totalSeconds / 60
         }
     }
-    var rangeOfFull: CGFloat {
+    var toleranceOfFullByMin: CGFloat {
         get {
-            if (totalMiniutes == 5) {
+            if (totalMins == 5) {
                 return 0.25
             }
-            else if (totalMiniutes == 120) {
+            else if (totalMins == 120) {
                 return 5
             }
             else {
-                return totalMiniutes / 12
+                return totalMins / 12
             }
         }
     }
         
-
+    var totalSeconds: CGFloat {
+        get {
+            return CGFloat(hourDuration * 3600 + minuteDuration * 60) + CGFloat(secondDuration)
+        }
+    }
+    var toleranceOfFull: CGFloat {
+        get {
+            return toleranceOfFullByMin * 60
+        }
+    }
     var centerPoint: CGPoint = CGPoint(x: 0, y: 0)
     var radius: CGFloat = 0
     var digitWidth: CGFloat = 20
     var lineWidth: CGFloat = 10
-
+    var radianPerSec: CGFloat {
+        get {
+            return (TimeView.fullCircle / totalSeconds)
+        }
+    }
+    func angleToSecond(_ angle: CGFloat) -> CGFloat {
+        return angle / radianPerSec
+    }
+    
     var startPoint: CGPoint = CGPoint(x: 0, y: 0)
     var endPoint: CGPoint  = CGPoint(x: 0, y: 0) {
         didSet {
             let angle = centerPoint.angleBetweenPoints(firstPoint: startPoint, secondPoint: endPoint, clockWise: false)
             //centerPoint.angleBetweenPoints(firstPoint: startPoint, secondPoint: endPoint) * -1 + start
-            let tick = angle / (TimeView.fullCircle / totalMiniutes)
-            let halfOfFull: CGFloat = totalMiniutes / 2.0
-            if (counterArc.value > (totalMiniutes - rangeOfFull) && tick < halfOfFull) {
-                counterArc.accept(totalMiniutes)
+            let secondsConsume = angleToSecond(angle)
+            let halfOfFull: CGFloat = totalSeconds / 2.0
+            if (secondCounter.value > (totalSeconds - toleranceOfFull) && secondsConsume < halfOfFull) {
+                secondCounter.accept(totalSeconds)
             }
-            else if (counterArc.value < rangeOfFull && tick >  halfOfFull) {
-                counterArc.accept(0)
+            else if (secondCounter.value < toleranceOfFull && secondsConsume >  halfOfFull) {
+                secondCounter.accept(0)
             }
             else {
-                let adjust = (totalMiniutes == 5) ? pruneForSmallUnit(value: tick) : prune(value: tick)
-                counterArc.accept(adjust)
+                let adjust = (totalMins == 5) ? pruneForSmallUnit(value: secondsConsume) : prune(value: secondsConsume)
+                secondCounter.accept(adjust)
             }
             //setNeedsDisplay()
         }
     }
     
     var disposeBag: DisposeBag = DisposeBag()
-    let counterArc = BehaviorRelay<CGFloat>(value: 0.0)                                                                                                                    //ReplaySubject<CGFloat> = ReplaySubject<CGFloat>.create(bufferSize: 2)
+    let secondCounter = BehaviorRelay<CGFloat>(value: 0.0)                                                                                                                    //ReplaySubject<CGFloat> = ReplaySubject<CGFloat>.create(bufferSize: 2)
     let timerStatus: BehaviorRelay<TimerStatus> = BehaviorRelay<TimerStatus>(value: .STOP)
+    let timerEvent: PublishRelay<TimerEvent> = PublishRelay<TimerEvent>()
     
     let region: Region = Region.current
-    var startTime: DateInRegion = Region.current.nowInThisRegion()
     var endTime: DateInRegion = Region.current.nowInThisRegion()
     
     override func prepareForInterfaceBuilder() {
@@ -87,32 +111,38 @@ class TimeView: UIView {
         setupView(frame)
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        counterArc.subscribe { [ unowned self] (event) in
+        secondCounter.subscribe { [ unowned self] (event) in
             guard let newValue = event.element else { return }
-            let radian = ((newValue == self.totalMiniutes) ? newValue - 0.01 : newValue) * (TimeView.fullCircle / self.totalMiniutes)
+            let radian = ((newValue == self.totalSeconds) ? newValue - 0.01 : newValue) * self.radianPerSec
             self.endArc = (radian < 0.5 * .pi) ? radian * -1 - 0.5 * .pi : 1.5 * .pi - radian;
             self.setNeedsDisplay()
         }.disposed(by: disposeBag)
-        
     }
-    
+
     var ttimer: Disposable?
     func start() {
-        startTime = Region.current.nowInThisRegion()
-        
-        endTime = startTime + Int(counterArc.value).minutes + Int((counterArc.value - CGFloat(Int(counterArc.value))) * 60).seconds
-        //hourDuration.hours + minuteDuration.minutes + secondDuration.seconds
+        endTime = Region.current.nowInThisRegion() + Int(secondCounter.value).seconds
         ttimer = Observable<Int>.interval(RxTimeInterval(1.0), scheduler: MainScheduler.instance)
             .subscribe (onNext: { [unowned self] (event) in
-                let newCountArc = self.counterArc.value - 1/60 //Region.current.nowInThisRegion() - self.endTime
-                if (newCountArc < 0) {
+                let newCountArc = (self.endTime - Region.current.nowInThisRegion()) //self.secondCounter.value - 1 //Region.current.nowInThisRegion() - self.endTime
+                if (newCountArc <= 0) {
+                    self.timerStatus.accept(.STOP)
+                    self.secondCounter.accept(0.0)
+                    self.timerEvent.accept(.TIMEUP)
                     self.ttimer?.dispose()
                     return
                 }
-                self.counterArc.accept(CGFloat(newCountArc))
+                if (Int(newCountArc) == 60) {
+                    self.timerEvent.accept(.LASTONEMINUTE)
+                }
+                self.secondCounter.accept(CGFloat(newCountArc))
                 //print("\(newCountArc)")
                 }, onError: { [unowned self]  _ in
                     self.timerStatus.accept(.STOP)
@@ -127,15 +157,19 @@ class TimeView: UIView {
         
     }
     
-    func reset() {
+    func stopTimer() {
         ttimer?.dispose()
-        
+        timerStatus.accept(.STOP)
     }
     
+    var backImg: UIImage? = nil
     func setupView(_ rect: CGRect) {
+        backImg = UIImage(named: "santa-cartoon")
+
         centerPoint = CGPoint(x: rect.midX, y: rect.midY)
-         radius = min(rect.width, rect.height) / 2.0 - digitWidth - lineWidth
-         startPoint = CGPoint(x: rect.width / 2, y: 0)
+        radius = min(rect.width, rect.height) / 2.0 - digitWidth - lineWidth
+        startPoint = CGPoint(x: rect.width / 2, y: 0)
+
     }
     override func draw(_ rect: CGRect) {
         if (centerPoint.x == 0) {
@@ -157,13 +191,19 @@ class TimeView: UIView {
     }
     
     func drawBackground(_ rect: CGRect) {
-        if (totalMiniutes == 60) {
+        if (backImg != nil) {
+            let top =  CGPoint.pointOnCircle(center: centerPoint, radius: radius, angle: 1.5 * .pi)
+            let left = CGPoint.pointOnCircle(center: centerPoint, radius: radius, angle: .pi)
+            Toucan(image: backImg!).maskWithEllipse().image?.draw(in: CGRect(x: left.x, y: top.y, width: radius * 2, height: radius * 2))
+        //backImg?.draw(in: CGRect(x: left.x, y: top.y, width: radius * 2, height: radius * 2))
+        }
+        if (totalMins == 60) {
             backgroundType60(rect)
         }
-        else if (totalMiniutes == 120) {
+        else if (totalMins == 120) {
             backgroundType120(rect)
         }
-        else if (totalMiniutes == 5) {
+        else if (totalMins == 5) {
             backgroundType5(rect)
         }
     }
@@ -176,7 +216,7 @@ class TimeView: UIView {
         var lineEnd: CGPoint = CGPoint(x: 0,y: 0)
         var charStart: CGPoint = CGPoint(x: 0, y: 0)
         var angle: CGFloat = 0.0
-        let unitAngle: CGFloat = TimeView.fullCircle / totalMiniutes
+        let unitAngle: CGFloat = TimeView.fullCircle / 60
         
         let path = UIBezierPath()
         lineColor.setStroke()
@@ -224,7 +264,7 @@ class TimeView: UIView {
         var lineEnd: CGPoint = CGPoint(x: 0,y: 0)
         var charStart: CGPoint = CGPoint(x: 0, y: 0)
         var angle: CGFloat = 0.0
-        let unitAngle: CGFloat = TimeView.fullCircle / totalMiniutes
+        let unitAngle: CGFloat = TimeView.fullCircle / 120
         
         let path = UIBezierPath()
         lineColor.setStroke()
@@ -273,7 +313,7 @@ class TimeView: UIView {
         var lineEnd: CGPoint = CGPoint(x: 0,y: 0)
         var charStart: CGPoint = CGPoint(x: 0, y: 0)
         var angle: CGFloat = 0.0
-        let unitAngle: CGFloat = TimeView.fullCircle / 20 //totalMiniutes
+        let unitAngle: CGFloat = TimeView.fullCircle / 20
         
         let path = UIBezierPath()
         lineColor.setStroke()
@@ -315,17 +355,29 @@ class TimeView: UIView {
     
     func prune(value: CGFloat) -> CGFloat {
         let iVal:Int = Int(value)
-        let err:CGFloat = value - CGFloat(iVal)
-        return (err < 0.5) ? CGFloat(iVal) : CGFloat(iVal + 1)
+        let err:Int = iVal % 60
+        let snapTolerance: Int = 30 /* 0.5 min, 30 secs, snap to per miniute */
+        return (err < snapTolerance) ? CGFloat(iVal - err) : CGFloat(iVal - err + 60)
             //(err >= 0.75) ? CGFloat(iVal + 1) : CGFloat(iVal) + 0.5
     }
     func pruneForSmallUnit(value: CGFloat) -> CGFloat {
         let iVal:Int = Int(value)
-        let err:CGFloat = value - CGFloat(iVal)
-        return (err <= 0.125) ? CGFloat(iVal) :
-            (err <= 0.375) ? CGFloat(iVal) + 0.25:
-            (err >= 0.875) ? CGFloat(iVal + 1) :
-            (err >= 0.625) ? CGFloat(iVal) + 0.75:
-            CGFloat(iVal) + 0.5
+        let err:CGFloat = (value - CGFloat(iVal))
+        
+        if (err <= 8) {/* less 8 seconds */
+            return CGFloat(iVal);
+        }
+        else if (err <= 22) {
+            return CGFloat(iVal) + 15;
+        }
+        else if (err >= 52) {
+            return CGFloat(iVal) + 60;
+        }
+        else if (err >= 38) {
+            return CGFloat(iVal) + 45;
+        }
+        else {
+            return CGFloat(iVal) + 30;
+        }
     }
 }

@@ -28,6 +28,7 @@ PODS:
     - RxSwift (>= 4.3.1)
   - RxSwift (4.5.0)
   - SwiftDate (6.1.0)
+  - Toucan (1.1.0)
 
 DEPENDENCIES:
   - Action
@@ -39,6 +40,7 @@ DEPENDENCIES:
   - RxKeyboard
   - RxSwift (~> 4.5.0)
   - SwiftDate
+  - Toucan
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -55,6 +57,7 @@ SPEC REPOS:
     - RxKeyboard
     - RxSwift
     - SwiftDate
+    - Toucan
 
 SPEC CHECKSUMS:
   Action: 689181e4c3f6566844178d8a7da6fef39a9597fc
@@ -70,7 +73,8 @@ SPEC CHECKSUMS:
   RxKeyboard: 4f782303f499f41577b41c96c6a9a5d7acd51a47
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   SwiftDate: fa2bb3962056bb44047b4b85a30044e5eae30b03
+  Toucan: 8f228fabb21521b9658692df9325fe76e71d74b2
 
-PODFILE CHECKSUM: ae17d4937da55f0460bc8467db9fe0c2be174287
+PODFILE CHECKSUM: 51e21c3cf1cf68af18fc72cc3b17fe2c2d0700fe
 
 COCOAPODS: 1.7.4
