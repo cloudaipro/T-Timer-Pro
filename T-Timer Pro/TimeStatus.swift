@@ -9,10 +9,13 @@
 import Foundation
 
 enum TimerStatus {
+    case SETTING
     case START
     case STOP
 }
 enum TimerEvent {
     case TIMEUP
     case LASTONEMINUTE
+    case REWARDING
+    case LASTSECOND(Int)
 }

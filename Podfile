@@ -16,4 +16,5 @@ target 'T-Timer Pro' do
   pod 'SwiftDate' #, '~> 5.0'
   pod 'Runtime'
   pod 'Toucan'
+  pod 'FaveButton'
 end

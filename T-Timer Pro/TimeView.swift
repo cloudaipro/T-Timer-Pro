@@ -12,9 +12,10 @@ import RxSwift
 import RxCocoa
 import SwiftDate
 import Toucan
+import FaveButton
 
 @IBDesignable
-class TimeView: UIView {
+class TimeView: UIView, FaveButtonDelegate {
     
     static let fullCircle: CGFloat = 2.0 * .pi
     var startArc:CGFloat = -0.25 * fullCircle
@@ -42,7 +43,10 @@ class TimeView: UIView {
     }
     var toleranceOfFullByMin: CGFloat {
         get {
-            if (totalMins == 5) {
+            if (totalMins == 1) {
+                return 1 / 60
+            }
+            else if (totalMins == 5) {
                 return 0.25
             }
             else if (totalMins == 120) {
@@ -84,14 +88,15 @@ class TimeView: UIView {
             //centerPoint.angleBetweenPoints(firstPoint: startPoint, secondPoint: endPoint) * -1 + start
             let secondsConsume = angleToSecond(angle)
             let halfOfFull: CGFloat = totalSeconds / 2.0
-            if (secondCounter.value > (totalSeconds - toleranceOfFull) && secondsConsume < halfOfFull) {
+            if (secondCounter.value >= (totalSeconds - toleranceOfFull) && secondsConsume < halfOfFull) {
                 secondCounter.accept(totalSeconds)
             }
-            else if (secondCounter.value < toleranceOfFull && secondsConsume >  halfOfFull) {
+            else if (secondCounter.value <= toleranceOfFull && secondsConsume >  halfOfFull) {
                 secondCounter.accept(0)
             }
             else {
-                let adjust = (totalMins == 5) ? pruneForSmallUnit(value: secondsConsume) : prune(value: secondsConsume)
+                let adjust = (totalMins == 1) ? CGFloat(Int(secondsConsume)) :
+                             (totalMins == 5) ? pruneForSmallUnit(value: secondsConsume) : prune(value: secondsConsume)
                 secondCounter.accept(adjust)
             }
             //setNeedsDisplay()
@@ -100,7 +105,7 @@ class TimeView: UIView {
     
     var disposeBag: DisposeBag = DisposeBag()
     let secondCounter = BehaviorRelay<CGFloat>(value: 0.0)                                                                                                                    //ReplaySubject<CGFloat> = ReplaySubject<CGFloat>.create(bufferSize: 2)
-    let timerStatus: BehaviorRelay<TimerStatus> = BehaviorRelay<TimerStatus>(value: .STOP)
+    let timerStatus: BehaviorRelay<TimerStatus> = BehaviorRelay<TimerStatus>(value: .SETTING)
     let timerEvent: PublishRelay<TimerEvent> = PublishRelay<TimerEvent>()
     
     let region: Region = Region.current
@@ -124,6 +129,11 @@ class TimeView: UIView {
             self.endArc = (radian < 0.5 * .pi) ? radian * -1 - 0.5 * .pi : 1.5 * .pi - radian;
             self.setNeedsDisplay()
         }.disposed(by: disposeBag)
+        timerStatus.share().subscribe(onNext: { [unowned self] status in
+            if (status == .SETTING) {
+                self.subviews.forEach{ $0.removeFromSuperview()}
+            }
+        }).disposed(by: disposeBag)
     }
 
     var ttimer: Disposable?
@@ -131,15 +141,20 @@ class TimeView: UIView {
         endTime = Region.current.nowInThisRegion() + Int(secondCounter.value).seconds
         ttimer = Observable<Int>.interval(RxTimeInterval(1.0), scheduler: MainScheduler.instance)
             .subscribe (onNext: { [unowned self] (event) in
-                let newCountArc = (self.endTime - Region.current.nowInThisRegion()) //self.secondCounter.value - 1 //Region.current.nowInThisRegion() - self.endTime
+                let newCountArc = Int((self.endTime - Region.current.nowInThisRegion())) //self.secondCounter.value - 1 //Region.current.nowInThisRegion() - self.endTime
                 if (newCountArc <= 0) {
-                    self.timerStatus.accept(.STOP)
                     self.secondCounter.accept(0.0)
+                    self.timerStatus.accept(.STOP)
                     self.timerEvent.accept(.TIMEUP)
                     self.ttimer?.dispose()
                     return
                 }
-                if (Int(newCountArc) == 60) {
+                if (self.totalSeconds == 60) {
+                    if (newCountArc <= 5 && newCountArc >= 1) {
+                        self.timerEvent.accept(.LASTSECOND(newCountArc))
+                    }
+                }
+                else if (newCountArc == 60) {
                     self.timerEvent.accept(.LASTONEMINUTE)
                 }
                 self.secondCounter.accept(CGFloat(newCountArc))
@@ -162,13 +177,21 @@ class TimeView: UIView {
         timerStatus.accept(.STOP)
     }
     
-    var backImg: UIImage? = nil
+    var rewardImg: UIImage? = nil
+    var topOfImg: CGPoint = CGPoint(x: 0,y: 0)
+    var leftOfImg: CGPoint = CGPoint(x: 0,y: 0)
+    var rewardImgFrame: CGRect = CGRect(x: 0, y:0, width: 0, height: 0)
     func setupView(_ rect: CGRect) {
-        backImg = UIImage(named: "santa-cartoon")
+        rewardImg = UIImage(named: "santa-cartoon")
 
         centerPoint = CGPoint(x: rect.midX, y: rect.midY)
         radius = min(rect.width, rect.height) / 2.0 - digitWidth - lineWidth
         startPoint = CGPoint(x: rect.width / 2, y: 0)
+
+        topOfImg =  CGPoint.pointOnCircle(center: centerPoint, radius: radius, angle: 1.5 * .pi)
+        leftOfImg = CGPoint.pointOnCircle(center: centerPoint, radius: radius, angle: .pi)
+        rewardImgFrame = CGRect(x: leftOfImg.x, y: topOfImg.y, width: radius * 2, height: radius * 2)
+        rewardImg = Toucan(image: UIImage(named: "santa-cartoon")!).maskWithEllipse().image
 
     }
     override func draw(_ rect: CGRect) {
@@ -191,13 +214,10 @@ class TimeView: UIView {
     }
     
     func drawBackground(_ rect: CGRect) {
-        if (backImg != nil) {
-            let top =  CGPoint.pointOnCircle(center: centerPoint, radius: radius, angle: 1.5 * .pi)
-            let left = CGPoint.pointOnCircle(center: centerPoint, radius: radius, angle: .pi)
-            Toucan(image: backImg!).maskWithEllipse().image?.draw(in: CGRect(x: left.x, y: top.y, width: radius * 2, height: radius * 2))
-        //backImg?.draw(in: CGRect(x: left.x, y: top.y, width: radius * 2, height: radius * 2))
+        if (rewardImg != nil && timerStatus.value != .STOP) {
+            rewardImg?.draw(in: rewardImgFrame)
         }
-        if (totalMins == 60) {
+        if (totalMins == 60 || totalSeconds == 60) {
             backgroundType60(rect)
         }
         else if (totalMins == 120) {
@@ -208,7 +228,7 @@ class TimeView: UIView {
         }
     }
     
-    // 60 mininutes
+    // 60 mininutes or 60 seconds
     func backgroundType60(_ rect: CGRect) {
         let digitRadius = radius + lineWidth + digitWidth / 2.0
         let lineRadius = radius + lineWidth
@@ -380,4 +400,40 @@ class TimeView: UIView {
             return CGFloat(iVal) + 30;
         }
     }
+
+    /* reward favbutton */
+    let colors = [
+        DotColors(first: color(0x7DC2F4), second: color(0xE2264D)),
+        DotColors(first: color(0xF8CC61), second: color(0x9BDFBA)),
+        DotColors(first: color(0xAF90F4), second: color(0x90D1F9)),
+        DotColors(first: color(0xE9A966), second: color(0xF8C852)),
+        DotColors(first: color(0xF68FA7), second: color(0xF6A2B8))
+    ]
+    func viewReward() {
+        timerEvent.accept(.REWARDING)
+        self.subviews.forEach{ $0.removeFromSuperview() }
+        let rewardIcon = FaveButton( frame: CGRect(x: leftOfImg.x, y: topOfImg.y, width: radius * 2, height: radius * 2),
+            faveIconNormal: UIImage(named: "santa-cartoon")!
+        )
+        rewardIcon.delegate = self
+        self.addSubview(rewardIcon)
+    }
+    func faveButton(_ faveButton: FaveButton, didSelected selected: Bool) {
+    }
+    func faveButtonDotColors(_ faveButton: FaveButton) -> [DotColors]? {
+       if faveButton == rewardImg	{
+         return colors
+       }
+       return nil
+    }
 }
+
+func color(_ rgbColor: Int) -> UIColor{
+    return UIColor(
+        red:   CGFloat((rgbColor & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbColor & 0x00FF00) >> 8 ) / 255.0,
+        blue:  CGFloat((rgbColor & 0x0000FF) >> 0 ) / 255.0,
+        alpha: CGFloat(1.0)
+    )
+}
+

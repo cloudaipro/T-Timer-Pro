@@ -11,6 +11,14 @@
 		8428941723A5BEEB00939482 /* Alla_Turca.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 8428941623A5BEEB00939482 /* Alla_Turca.mp3 */; };
 		84341F1D2389F368008E94C6 /* TimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84341F1C2389F368008E94C6 /* TimeView.swift */; };
 		843873A32399DAE1005DA002 /*  CGPoint+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843873A22399DAE1005DA002 /*  CGPoint+Extension.swift */; };
+		844E6FAA23A7FA15004C11A4 /* Spark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E6FA123A7FA14004C11A4 /* Spark.swift */; };
+		844E6FAB23A7FA15004C11A4 /* FaveIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E6FA223A7FA14004C11A4 /* FaveIcon.swift */; };
+		844E6FAC23A7FA15004C11A4 /* FaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E6FA323A7FA15004C11A4 /* FaveButton.swift */; };
+		844E6FAD23A7FA15004C11A4 /* Ring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E6FA423A7FA15004C11A4 /* Ring.swift */; };
+		844E6FAE23A7FA15004C11A4 /* Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E6FA623A7FA15004C11A4 /* Geometry.swift */; };
+		844E6FAF23A7FA15004C11A4 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E6FA723A7FA15004C11A4 /* Easing.swift */; };
+		844E6FB023A7FA15004C11A4 /* Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E6FA823A7FA15004C11A4 /* Init.swift */; };
+		844E6FB123A7FA15004C11A4 /* Constraints+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E6FA923A7FA15004C11A4 /* Constraints+.swift */; };
 		845A4709239242750065D373 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845A4708239242740065D373 /* Storyboard.storyboard */; };
 		84B9C5AC239DD4E100214359 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9C5AB239DD4E100214359 /* RoundButton.swift */; };
 		84B9C5AE239DDADD00214359 /* TimeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9C5AD239DDADD00214359 /* TimeStatus.swift */; };
@@ -29,6 +37,14 @@
 		8428941623A5BEEB00939482 /* Alla_Turca.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alla_Turca.mp3; sourceTree = "<group>"; };
 		84341F1C2389F368008E94C6 /* TimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeView.swift; sourceTree = "<group>"; };
 		843873A22399DAE1005DA002 /*  CGPoint+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " CGPoint+Extension.swift"; sourceTree = "<group>"; };
+		844E6FA123A7FA14004C11A4 /* Spark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spark.swift; sourceTree = "<group>"; };
+		844E6FA223A7FA14004C11A4 /* FaveIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaveIcon.swift; sourceTree = "<group>"; };
+		844E6FA323A7FA15004C11A4 /* FaveButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaveButton.swift; sourceTree = "<group>"; };
+		844E6FA423A7FA15004C11A4 /* Ring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ring.swift; sourceTree = "<group>"; };
+		844E6FA623A7FA15004C11A4 /* Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Geometry.swift; sourceTree = "<group>"; };
+		844E6FA723A7FA15004C11A4 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
+		844E6FA823A7FA15004C11A4 /* Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Init.swift; sourceTree = "<group>"; };
+		844E6FA923A7FA15004C11A4 /* Constraints+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constraints+.swift"; sourceTree = "<group>"; };
 		845A4708239242740065D373 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		84B9C5AB239DD4E100214359 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		84B9C5AD239DDADD00214359 /* TimeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeStatus.swift; sourceTree = "<group>"; };
@@ -74,6 +90,29 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		844E6FA023A7FA14004C11A4 /* FaveButton */ = {
+			isa = PBXGroup;
+			children = (
+				844E6FA123A7FA14004C11A4 /* Spark.swift */,
+				844E6FA223A7FA14004C11A4 /* FaveIcon.swift */,
+				844E6FA323A7FA15004C11A4 /* FaveButton.swift */,
+				844E6FA423A7FA15004C11A4 /* Ring.swift */,
+				844E6FA523A7FA15004C11A4 /* Helpers */,
+			);
+			path = FaveButton;
+			sourceTree = "<group>";
+		};
+		844E6FA523A7FA15004C11A4 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				844E6FA623A7FA15004C11A4 /* Geometry.swift */,
+				844E6FA723A7FA15004C11A4 /* Easing.swift */,
+				844E6FA823A7FA15004C11A4 /* Init.swift */,
+				844E6FA923A7FA15004C11A4 /* Constraints+.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		84EFE3A82389BDEB009CB019 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +134,7 @@
 		84EFE3B32389BDEB009CB019 /* T-Timer Pro */ = {
 			isa = PBXGroup;
 			children = (
+				844E6FA023A7FA14004C11A4 /* FaveButton */,
 				8428941523A5BE8B00939482 /* Sounds */,
 				84EFE3B42389BDEB009CB019 /* AppDelegate.swift */,
 				84EFE3B62389BDEB009CB019 /* SceneDelegate.swift */,
@@ -239,12 +279,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				84B9C5AC239DD4E100214359 /* RoundButton.swift in Sources */,
+				844E6FAE23A7FA15004C11A4 /* Geometry.swift in Sources */,
 				84EFE3B92389BDEB009CB019 /* ViewController.swift in Sources */,
 				843873A32399DAE1005DA002 /*  CGPoint+Extension.swift in Sources */,
 				84EFE3B52389BDEB009CB019 /* AppDelegate.swift in Sources */,
+				844E6FAB23A7FA15004C11A4 /* FaveIcon.swift in Sources */,
 				84EFE3B72389BDEB009CB019 /* SceneDelegate.swift in Sources */,
 				84341F1D2389F368008E94C6 /* TimeView.swift in Sources */,
 				84B9C5AE239DDADD00214359 /* TimeStatus.swift in Sources */,
+				844E6FB023A7FA15004C11A4 /* Init.swift in Sources */,
+				844E6FAF23A7FA15004C11A4 /* Easing.swift in Sources */,
+				844E6FAA23A7FA15004C11A4 /* Spark.swift in Sources */,
+				844E6FAD23A7FA15004C11A4 /* Ring.swift in Sources */,
+				844E6FB123A7FA15004C11A4 /* Constraints+.swift in Sources */,
+				844E6FAC23A7FA15004C11A4 /* FaveButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
